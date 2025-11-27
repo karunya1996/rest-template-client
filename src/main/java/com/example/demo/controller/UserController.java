@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Department;
+import com.example.demo.model.UserWithDepartment;
+import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceRestClient;
 import com.example.demo.service.UserServiceRestTemplate;
 
@@ -14,10 +16,16 @@ import com.example.demo.service.UserServiceRestTemplate;
 @RequestMapping("/users")
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
     private UserServiceRestTemplate userServiceRestTemplate;
     @Autowired 
     private UserServiceRestClient userServiceRestClient;
+
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/resttemplate/{id}")
     public Department getDeptWithRestTemplate(@PathVariable Long id) {
@@ -27,5 +35,10 @@ public class UserController {
     @GetMapping("/restclient/{id}")
     public Department getDeptWithRestClient(@PathVariable Long id) {
         return userServiceRestClient.getDepartment(id);
+    }
+    
+    @GetMapping("/{id}")
+    public UserWithDepartment getUser(@PathVariable Long id) {
+        return userService.getUserWithDepartment(id);
     }
 }

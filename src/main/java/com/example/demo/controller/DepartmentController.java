@@ -28,4 +28,9 @@ public class DepartmentController {
                 return new Department(id, "Unknown", "Unknown");
             }
         }
+        
+        @GetMapping("/{id}")
+        public Department getDepartment3(@PathVariable Long id) {
+            return new Department(id, "HR", "Bangalore");
+        }
 }
